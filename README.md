@@ -43,6 +43,7 @@ ___
 
 ### Q: Please discuss any design choices you made.
 - we are Adding collateral tokens without oracle validation because  we validate everything before launch and test on tenderly
+- We use the on-chain wstETH → stETH → ETH rate because it is the source of truth for backing, immune to market noise, cheaper in gas, and follows Aave’s precedent.
 - Fee calculation rounding favors users over the protocol, e.g. In the _calculateFee() function of the DaoCollateral contract we are rounding down. 
 - The DaoCollateral contract (and other contracts in the protocol) cache contract addresses from the registry during initialization but do not update these cached addresses when the registry is modified . It is a deliberate architectural choice that prioritizes gas efficiency over immediate registry synchronization.
 - in case of  protocol surplus(i.e because the price of wstETH would be accruing over time) if eth0.mintCap would block the minting of new ETH0 we will raise the mint cap.
